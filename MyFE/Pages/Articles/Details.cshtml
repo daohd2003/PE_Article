@@ -1,0 +1,22 @@
+﻿@page "{id:int}"
+@model MyFE.Pages.Articles.DetailsModel
+@{
+}
+<h2>@Model.Article?.Title</h2>
+<p>@Model.Article?.CategoryName</p>
+<h3>Comments</h3>
+@if (!string.IsNullOrEmpty(Model.SuccessMessage))
+{
+    <div class="alert alert-success mt-2">@Model.SuccessMessage</div>
+}
+@foreach (var comment in Model.CommentList)
+{
+    <li>
+        <strong>@comment.Ncontent</strong>
+        <em>(@comment.CreatedAt.ToString("dd/MM/yyyy HH:mm"))</em>
+    </li>
+}
+<form method="post">
+    <textarea asp-for="Comment.Ncontent" class="form-control" rows="3"></textarea>
+    <button type="submit" class="btn btn-primary mt-2">Register</button>
+</form>
