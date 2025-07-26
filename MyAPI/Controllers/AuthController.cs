@@ -11,40 +11,24 @@ namespace MyAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly Sp25Prn231Pe2Context _context;
-        private readonly JwtService _jwtService;
+        private readonly IAuthService _authService;
 
-        public AuthController(Sp25Prn231Pe2Context context, JwtService jwtService)
+        public AuthController(Sp25Prn231Pe2Context context, IAuthService authService)
         {
-            _context = context;
-            _jwtService = jwtService;
+            _authService = authService;
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<LoginResponseDTO>> Login(LoginRequestDTO dto)
         {
-            var user = await _context.Users
-                .FirstOrDefaultAsync(u => u.Email == dto.Email);
+            var result = await _authService.Login(dto);
 
-            if (user == null || user.Password != dto.Password)
+            if (!result.IsSuccess)
             {
-                return Unauthorized(new LoginResponseDTO
-                {
-                    IsSuccess = false,
-                    Message = "Invalid email or password"
-                });
+                return Unauthorized(result);
             }
 
-            var token = _jwtService.GenerateToken(user.UserId, user.Email);
-
-            return Ok(new LoginResponseDTO
-            {
-                IsSuccess = true,
-                Message = "Login successful",
-                Email = user.Email,
-                UserId = user.UserId,
-                Token = token
-            });
+            return Ok(result);
         }
     }
 }

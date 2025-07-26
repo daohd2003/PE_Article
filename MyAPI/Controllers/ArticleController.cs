@@ -47,21 +47,21 @@ namespace MyAPI.Controllers
         public async Task<IActionResult> CreateArticle([FromBody] CreateArticleDTO dto)
         {
             var articles = await _articleService.CreateArticle(dto);
-            return Ok();
+            return Ok(articles);
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateArticle([FromBody] UpdateArticleDTO dto)
         {
             var articles = await _articleService.UpdateArticle(dto);
-            return Ok();
+            return Ok(articles);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(int id)
         {
             var articles = await _articleService.DeleteArticle(id);
-            return Ok();
+            return Ok(articles);
         }
     }
 }

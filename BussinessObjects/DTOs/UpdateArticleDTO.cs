@@ -17,5 +17,7 @@ namespace BussinessObjects.DTOs
         public int CategoryId { get; set; }
 
         public int AuthorId { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

@@ -44,6 +44,8 @@ namespace MyAPI
             builder.Services.AddScoped<ICommentService, CommentService>();
             builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 
+            builder.Services.AddScoped<IAuthService, AuthService>();
+
             var jwtSettings = builder.Configuration.GetSection("JwtSettings");
             var secretKey = jwtSettings["SecretKey"];
 
@@ -92,6 +94,7 @@ namespace MyAPI
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
 
